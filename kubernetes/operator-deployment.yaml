@@ -1,0 +1,127 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: yba-operator
+  namespace: yba-operator
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: yba-operator
+  namespace: yba-operator
+spec:
+  selector:
+    matchLabels:
+      app: yba-operator
+  template:
+    metadata:
+      labels:
+        app: yba-operator
+    spec:
+      serviceAccountName: yba-operator
+      containers:
+      - name: operator
+        image: ghcr.io/btjimerson/yba-kubernetes-operator:0.1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+        env:
+        - name: YBA_HOSTNAME
+          value: "yugaware-yugaware-ui.yugabyte.svc.cluster.local"
+        - name: YBA_KUBECONFIG_PATH
+          value: "/etc/yugabyte-kubeconfig/yba-kubeconfig.yaml"
+        - name: YBA_PROVIDER_NAME
+          value: "gke"
+        - name: YBA_PULL_SECRET_PATH
+          value: "/etc/yugabyte-pull-secret/yugabyte-pull-secret.yaml"
+        - name: YBA_REGION
+          value: "us-central1"
+        - name: YBA_REGION_LATITUDE
+          value: "41"
+        - name: YBA_REGION_LONGITUDE
+          value: "-95"
+        - name: YBA_ZONE
+          value: "us-central1-a"
+        volumeMounts:
+        - mountPath: /etc/yugabyte-pull-secret
+          name: yugabyte-pull-secret
+        - mountPath: /etc/yugabyte-kubeconfig
+          name: yugabyte-kubeconfig
+      volumes:
+      - name: yugabyte-pull-secret
+        configMap:
+          name: yugabyte-pull-secret-config-map
+      - name: yugabyte-kubeconfig
+        configMap:
+          name: yugabyte-kubeconfig-config
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: yba-operator-admin
+subjects:
+- kind: ServiceAccount
+  name: yba-operator
+  namespace: yba-operator
+roleRef:
+  kind: ClusterRole
+  name: yba-operator
+  apiGroup: ""
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: yba-operator
+rules:
+- apiGroups:
+  - ""
+  - apps
+  - autoscaling
+  - batch
+  - extensions
+  - policy
+  - rbac.authorization.k8s.io
+  resources:
+  - pods
+  - componentstatuses
+  - configmaps
+  - daemonsets
+  - deployments
+  - events
+  - endpoints
+  - horizontalpodautoscalers
+  - ingress
+  - jobs
+  - limitranges
+  - namespaces
+  - nodes
+  - pods
+  - persistentvolumes
+  - persistentvolumeclaims
+  - resourcequotas
+  - replicasets
+  - replicationcontrollers
+  - secrets
+  - serviceaccounts
+  - services
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+- apiGroups:
+  - "apiextensions.k8s.io"
+  resources:
+  - customresourcedefinitions
+  verbs:
+  - '*'
+- apiGroups:
+  - "ybaoperator.io"
+  resources:
+  - adminusers
+  - adminusers/status
+  - cloudproviders
+  - cloudproviders/status
+  - universes
+  - universes/status
+  verbs:
+  - '*'
