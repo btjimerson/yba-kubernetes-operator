@@ -1,0 +1,13 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: yba-operator-admin
+subjects:
+- kind: ServiceAccount
+  name: yba-operator
+  namespace: yba-operator
+roleRef:
+  kind: ClusterRole
+  name: yba-operator
+  apiGroup: ""
