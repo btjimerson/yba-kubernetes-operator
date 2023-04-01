@@ -27,14 +27,6 @@ spec:
           value: "gke"
         - name: YBA_PULL_SECRET_PATH
           value: "/etc/yugabyte-pull-secret/yugabyte-pull-secret.yaml"
-        - name: YBA_REGION
-          value: "us-central1"
-        - name: YBA_REGION_LATITUDE
-          value: "41"
-        - name: YBA_REGION_LONGITUDE
-          value: "-95"
-        - name: YBA_ZONE
-          value: "us-central1-a"
         volumeMounts:
         - mountPath: /etc/yugabyte-pull-secret
           name: yugabyte-pull-secret

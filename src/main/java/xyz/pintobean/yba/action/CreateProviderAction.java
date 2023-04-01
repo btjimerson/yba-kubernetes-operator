@@ -77,7 +77,7 @@ public class CreateProviderAction extends YbaClientAction {
         //Kube configuration
         Config__1 zoneConfig = new Config__1();
         zoneConfig.setKubeconfigContent(cloudProvider.getKubeconfig());
-        zoneConfig.setKubeconfigName(ybaArguments.getZone() + "-kubeconfig.yaml");
+        zoneConfig.setKubeconfigName(cloudProvider.getZone() + "-kubeconfig.yaml");
         zoneConfig.setKubenamespace(ybaArguments.getNamespace());
 
         //Availability zone
