@@ -8,6 +8,7 @@ public class CloudProviderSpec {
     private String adminUser;
     private String name;
     private String kubeconfig;
+    private String namespace;
     private String region;
     private Integer regionLatitude;
     private Integer regionLongitude;
@@ -35,6 +36,14 @@ public class CloudProviderSpec {
 
     public void setKubeconfig(String kubeconfig) {
         this.kubeconfig = kubeconfig;
+    }
+
+    public String getNamespace() {
+        return namespace;
+    }
+
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
     }
 
     public String getRegion() {

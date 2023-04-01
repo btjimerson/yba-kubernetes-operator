@@ -2,12 +2,22 @@ package xyz.pintobean.yba.domain;
 
 public class CloudProviderKubernetesEntity {
  
+    private String adminUser;
     private String name;
     private String kubeconfig;
+    private String namespace;
     private String region;
     private Integer regionLatitude;
     private Integer regionLongitude;
     private String zone;
+
+    public String getAdminUser() {
+        return adminUser;
+    }
+
+    public void setAdminUser(String adminUser) {
+        this.adminUser = adminUser;
+    }
 
     public String getName() {
         return name;
@@ -23,6 +33,14 @@ public class CloudProviderKubernetesEntity {
 
     public void setKubeconfig(String kubeconfig) {
         this.kubeconfig = kubeconfig;
+    }
+
+    public String getNamespace() {
+        return namespace;
+    }
+
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
     }
 
     public String getRegion() {

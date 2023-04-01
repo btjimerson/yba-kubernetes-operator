@@ -26,6 +26,8 @@ spec:
                 type: string
               kubeconfig:
                 type: string
+              namespace:
+                type: string
               region:
                 type: string
               regionLatitude:

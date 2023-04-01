@@ -78,7 +78,7 @@ public class CreateProviderAction extends YbaClientAction {
         Config__1 zoneConfig = new Config__1();
         zoneConfig.setKubeconfigContent(cloudProvider.getKubeconfig());
         zoneConfig.setKubeconfigName(cloudProvider.getZone() + "-kubeconfig.yaml");
-        zoneConfig.setKubenamespace(ybaArguments.getNamespace());
+        zoneConfig.setKubenamespace(cloudProvider.getNamespace());
 
         //Availability zone
         Zone zone = new Zone();
@@ -106,7 +106,9 @@ public class CreateProviderAction extends YbaClientAction {
         providerConfig.setKubeconfigPullSecretName(ybaArguments.getPullSecretName());
         providerConfig.setKubeconfigImagePullSecretName(ybaArguments.getPullSecretName());
         providerConfig.setKubeconfigPullSecretContent(this.readFile(ybaArguments.getPullSecretPath()));
-        providerConfig.setKubePodAddressTemplate("{pod_name}.{service_name}.{namespace}.svc.{cluster_domain}");
+        // This works in 1.17 but not in 1.16
+        // TODO: figure out what is should be across versions
+        //providerConfig.setKubePodAddressTemplate("{pod_name}.{service_name}.{namespace}.svc.{cluster_domain}");
 
         //Provider
         Provider provider = new Provider();

@@ -7,20 +7,10 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix="yba")
 public class YbaProperties {
 
-    private String apiToken; 
     private String hostname;
-    private String namespace;
     private String pullSecretName; 
     private String pullSecretPath; 
     private String serviceAccount;
-
-    public String getApiToken() {
-        return apiToken;
-    }
-
-    public void setApiToken(String apiToken) {
-        this.apiToken = apiToken;
-    }
 
     public String getHostname() {
         return hostname;
@@ -28,14 +18,6 @@ public class YbaProperties {
 
     public void setHostname(String hostname) {
         this.hostname = hostname;
-    }
-
-    public String getNamespace() {
-        return namespace;
-    }
-
-    public void setNamespace(String namespace) {
-        this.namespace = namespace;
     }
 
     public String getPullSecretName() {
