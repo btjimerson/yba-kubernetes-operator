@@ -23,8 +23,6 @@ spec:
         env:
         - name: YBA_HOSTNAME
           value: "yugaware-yugaware-ui.yugabyte.svc.cluster.local"
-        - name: YBA_KUBECONFIG_PATH
-          value: "/etc/yugabyte-kubeconfig/yba-kubeconfig.yaml"
         - name: YBA_PROVIDER_NAME
           value: "gke"
         - name: YBA_PULL_SECRET_PATH
@@ -40,12 +38,7 @@ spec:
         volumeMounts:
         - mountPath: /etc/yugabyte-pull-secret
           name: yugabyte-pull-secret
-        - mountPath: /etc/yugabyte-kubeconfig
-          name: yugabyte-kubeconfig
       volumes:
       - name: yugabyte-pull-secret
         configMap:
           name: yugabyte-pull-secret-config-map
-      - name: yugabyte-kubeconfig
-        configMap:
-          name: yugabyte-kubeconfig-config
