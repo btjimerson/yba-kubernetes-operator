@@ -16,7 +16,7 @@ spec:
       serviceAccountName: yba-operator
       containers:
       - name: operator
-        image: ghcr.io/btjimerson/yba-kubernetes-operator:0.1.0
+        image: ghcr.io/btjimerson/yba-kubernetes-operator:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 80
