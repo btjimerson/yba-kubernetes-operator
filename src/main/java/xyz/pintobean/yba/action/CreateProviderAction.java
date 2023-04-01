@@ -62,7 +62,7 @@ public class CreateProviderAction extends YbaClientAction {
         if (existingProviders != null &&
             existingProviders.length > 0 &&
             existingProviders[0].getName() != null &&
-            existingProviders[0].getName().equals(ybaArguments.getProviderName()) &&
+            existingProviders[0].getName().equals(cloudProvider.getName()) &&
             "kubernetes".equals(existingProviders[0].getCode())) {
             LOG.info(
                 String.format(
@@ -76,7 +76,7 @@ public class CreateProviderAction extends YbaClientAction {
 
         //Kube configuration
         Config__1 zoneConfig = new Config__1();
-        zoneConfig.setKubeconfigContent(this.readFile(ybaArguments.getKubeconfigPath()));
+        zoneConfig.setKubeconfigContent(cloudProvider.getKubeconfig());
         zoneConfig.setKubeconfigName(ybaArguments.getZone() + "-kubeconfig.yaml");
         zoneConfig.setKubenamespace(ybaArguments.getNamespace());
 

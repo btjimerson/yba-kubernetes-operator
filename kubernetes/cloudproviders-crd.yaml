@@ -24,7 +24,7 @@ spec:
                 type: string
               name:
                 type: string
-              zone:
+              kubeconfig:
                 type: string
               region:
                 type: string
@@ -32,10 +32,12 @@ spec:
                 type: integer
               regionLongitude:
                 type: integer
+              zone:
+                type: string
             type: object
           status:
             properties:
-              providerUuid:
+              status:
                 type: string
             type: object
         type: object

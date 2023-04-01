@@ -7,10 +7,11 @@ public class CloudProviderSpec {
     
     private String adminUser;
     private String name;
-    private String zone;
+    private String kubeconfig;
     private String region;
     private Integer regionLatitude;
     private Integer regionLongitude;
+    private String zone;
 
     public String getAdminUser() {
         return adminUser;
@@ -28,12 +29,12 @@ public class CloudProviderSpec {
         this.name = name;
     }
 
-    public String getZone() {
-        return zone;
+    public String getKubeconfig() {
+        return kubeconfig;
     }
 
-    public void setZone(String zone) {
-        this.zone = zone;
+    public void setKubeconfig(String kubeconfig) {
+        this.kubeconfig = kubeconfig;
     }
 
     public String getRegion() {
@@ -58,6 +59,14 @@ public class CloudProviderSpec {
 
     public void setRegionLongitude(Integer regionLongitude) {
         this.regionLongitude = regionLongitude;
+    }
+
+    public String getZone() {
+        return zone;
+    }
+
+    public void setZone(String zone) {
+        this.zone = zone;
     }
 
     @Override

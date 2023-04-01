@@ -10,9 +10,7 @@ public class YbaProperties {
     private String apiToken; 
     private String environment;
     private String hostname;
-    private String kubeconfigPath; 
     private String namespace;
-    private String providerName; 
     private String pullSecretName; 
     private String pullSecretPath; 
     private String region; 
@@ -48,28 +46,12 @@ public class YbaProperties {
         this.hostname = hostname;
     }
 
-    public String getKubeconfigPath() {
-        return kubeconfigPath;
-    }
-
-    public void setKubeconfigPath(String kubeconfigPath) {
-        this.kubeconfigPath = kubeconfigPath;
-    }
-
     public String getNamespace() {
         return namespace;
     }
 
     public void setNamespace(String namespace) {
         this.namespace = namespace;
-    }
-
-    public String getProviderName() {
-        return providerName;
-    }
-
-    public void setProviderName(String providerName) {
-        this.providerName = providerName;
     }
 
     public String getPullSecretName() {

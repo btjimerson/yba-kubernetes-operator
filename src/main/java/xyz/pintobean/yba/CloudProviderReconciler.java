@@ -29,6 +29,7 @@ public class CloudProviderReconciler implements Reconciler<CloudProvider> {
             throws Exception {
 
         CloudProviderKubernetesEntity cloudProvider = new CloudProviderKubernetesEntity();
+        cloudProvider.setKubeconfig(resource.getSpec().getKubeconfig());
         cloudProvider.setName(resource.getSpec().getName());
         cloudProvider.setRegion(resource.getSpec().getRegion());
         cloudProvider.setRegionLatitude(resource.getSpec().getRegionLatitude());
@@ -40,7 +41,6 @@ public class CloudProviderReconciler implements Reconciler<CloudProvider> {
             resource.getMetadata().getNamespace(),
             "customerUuid"
         );
-
 
         String apiToken = KubernetesUtils.readFromConfigMap(
             "yba-operator-config-map",
