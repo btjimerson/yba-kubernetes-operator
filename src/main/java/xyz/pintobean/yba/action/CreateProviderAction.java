@@ -78,6 +78,7 @@ public class CreateProviderAction extends YbaClientAction {
         Config__1 zoneConfig = new Config__1();
         zoneConfig.setKubeconfigContent(cloudProvider.getKubeconfig());
         zoneConfig.setKubeconfigName(cloudProvider.getZone() + "-kubeconfig.yaml");
+        zoneConfig.setOverrides("istioCompatibility:\n  enabled: true\nmulticluster:\n  createServicePerPod: true");
         zoneConfig.setKubenamespace(cloudProvider.getNamespace());
 
         //Availability zone
@@ -106,7 +107,7 @@ public class CreateProviderAction extends YbaClientAction {
         providerConfig.setKubeconfigPullSecretName(ybaArguments.getPullSecretName());
         providerConfig.setKubeconfigImagePullSecretName(ybaArguments.getPullSecretName());
         providerConfig.setKubeconfigPullSecretContent(this.readFile(ybaArguments.getPullSecretPath()));
-        // This works in 1.17 but not in 1.16
+        // This works in 1.17 but not in 1.16 - this is in zone config in 1.16
         // TODO: figure out what is should be across versions
         //providerConfig.setKubePodAddressTemplate("{pod_name}.{service_name}.{namespace}.svc.{cluster_domain}");
 
