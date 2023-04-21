@@ -1,10 +1,10 @@
 FROM eclipse-temurin:19
 RUN apt-get update
-RUN curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
-RUN apt-get install apt-transport-https --yes
-RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | tee /etc/apt/sources.list.d/helm-stable-debian.list
-RUN apt-get update
-RUN apt-get install helm
+RUN wget https://get.helm.sh/helm-v3.9.3-linux-amd64.tar.gz
+RUN tar xvf helm-v3.9.3-linux-amd64.tar.gz
+RUN mv linux-amd64/helm /usr/local/bin
+RUN rm helm-v3.9.3-linux-amd64.tar.gz
+RUN rm -rf linux-amd64
 WORKDIR /opt
 EXPOSE 8080
 COPY target/*.jar /opt/app.jar
