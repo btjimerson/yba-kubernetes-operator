@@ -63,8 +63,8 @@ public class UpgradeUniverseAction extends YbaClientAction {
 		Software software = new Software();
 		software.setNodePrefix("yb-dev" + entity.getName());
 		software.setUniverseUUID(entity.getUniverseUuid());
-		software.setUpgradeOption("Rolling");
-		software.setTaskType("Software");
+		software.setUpgradeOption(entity.getUpgradeOption());
+		software.setTaskType(entity.getTaskType());
 		software.setYbSoftwareVersion(entity.getSoftwareVersion());
 
 		//API call
