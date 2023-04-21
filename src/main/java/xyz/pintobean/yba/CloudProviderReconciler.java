@@ -28,14 +28,6 @@ public class CloudProviderReconciler implements Reconciler<CloudProvider> {
     public UpdateControl<CloudProvider> reconcile(CloudProvider resource, Context<CloudProvider> context)
             throws Exception {
 
-        CloudProviderKubernetesEntity cloudProvider = new CloudProviderKubernetesEntity();
-        cloudProvider.setKubeconfig(resource.getSpec().getKubeconfig());
-        cloudProvider.setName(resource.getSpec().getName());
-        cloudProvider.setRegion(resource.getSpec().getRegion());
-        cloudProvider.setRegionLatitude(resource.getSpec().getRegionLatitude());
-        cloudProvider.setRegionLongitude(resource.getSpec().getRegionLongitude());
-        cloudProvider.setZone(resource.getSpec().getZone());
-
         String customerUuid = KubernetesUtils.readFromConfigMap(
             "yba-operator-config-map",
             resource.getMetadata().getNamespace(),
@@ -48,9 +40,17 @@ public class CloudProviderReconciler implements Reconciler<CloudProvider> {
             "apiToken"
         );
 
+        CloudProviderKubernetesEntity cloudProvider = new CloudProviderKubernetesEntity();
+        cloudProvider.setKubeconfig(resource.getSpec().getKubeconfig());
+        cloudProvider.setCustomerUuid(customerUuid);
+        cloudProvider.setName(resource.getSpec().getName());
+        cloudProvider.setRegion(resource.getSpec().getRegion());
+        cloudProvider.setRegionLatitude(resource.getSpec().getRegionLatitude());
+        cloudProvider.setRegionLongitude(resource.getSpec().getRegionLongitude());
+        cloudProvider.setZone(resource.getSpec().getZone());
+
         CreateProviderAction createProviderAction = new CreateProviderAction();
         createProviderAction.setYbaArguments(ybaArguments);
-        createProviderAction.setCustomerUuid(customerUuid);
         createProviderAction.setApiToken(apiToken);
         Map<String, String> results = createProviderAction.runAction(cloudProvider);
         LOG.info(String.format("Results from create provider action = [{%s}]", results));

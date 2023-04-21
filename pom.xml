@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>xyz.pintobean</groupId>
-	<artifactId>yba-kubernetes-manager</artifactId>
+	<artifactId>yba-kubernetes-operator</artifactId>
 	<version>0.1.0</version>
-	<name>yba-kubernetes-manager</name>
-	<description>Manager for YBA on Kubernetes</description>
+	<name>yba-kubernetes-operator</name>
+	<description>Kubernetes Operator for YugabyteDB Anywhere</description>
 	<properties>
 		<java.version>19</java.version>
 	</properties>

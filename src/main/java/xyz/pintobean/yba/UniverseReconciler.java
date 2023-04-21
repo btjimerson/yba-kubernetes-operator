@@ -27,15 +27,6 @@ public class UniverseReconciler implements Reconciler<Universe>{
     @Override
     public UpdateControl<Universe> reconcile(Universe resource, Context<Universe> context) throws Exception {
 
-        UniverseKubernetesEntity universe = new UniverseKubernetesEntity();
-        universe.setName(resource.getSpec().getName());
-        universe.setReplicationFactor(resource.getSpec().getReplicationFactor());
-        universe.setSoftwareVersion(resource.getSpec().getSoftwareVersion());
-        universe.setStorageClass(resource.getSpec().getStorageClass());
-        universe.setVolumeSize(resource.getSpec().getVolumeSize());
-        universe.setYcqlPassword(resource.getSpec().getYcqlPassword());
-        universe.setYsqlPassword(resource.getSpec().getYsqlPassword());
-
         String customerUuid = KubernetesUtils.readFromConfigMap(
             "yba-operator-config-map",
             resource.getMetadata().getNamespace(),
@@ -55,11 +46,20 @@ public class UniverseReconciler implements Reconciler<Universe>{
             "providerUuid"
         );
 
+        UniverseKubernetesEntity universe = new UniverseKubernetesEntity();
+        universe.setCustomerUuid(customerUuid);
+        universe.setName(resource.getSpec().getName());
+        universe.setProviderUuid(providerUuid);
+        universe.setReplicationFactor(resource.getSpec().getReplicationFactor());
+        universe.setSoftwareVersion(resource.getSpec().getSoftwareVersion());
+        universe.setStorageClass(resource.getSpec().getStorageClass());
+        universe.setVolumeSize(resource.getSpec().getVolumeSize());
+        universe.setYcqlPassword(resource.getSpec().getYcqlPassword());
+        universe.setYsqlPassword(resource.getSpec().getYsqlPassword());
+
         CreateUniverseAction createUniverseAction = new CreateUniverseAction();
         createUniverseAction.setYbaArguments(ybaArguments);
         createUniverseAction.setApiToken(apiToken);
-        createUniverseAction.setCustomerUuid(customerUuid);
-        createUniverseAction.setProviderUuid(providerUuid);
         Map<String, String> results = createUniverseAction.runAction(universe);
         LOG.info(String.format("Results from create universe action = [{%s}]", results));
         

@@ -28,9 +28,6 @@ public class CreateUniverseAction extends YbaClientAction {
 
     private static final Log LOG = LogFactory.getLog(CreateUniverseAction.class);
 
-    private String customerUuid;
-    private String providerUuid;
-
     /**
      * Runs this action
      */
@@ -40,7 +37,7 @@ public class CreateUniverseAction extends YbaClientAction {
         StringBuilder url = new StringBuilder();
         url.append(normalizeHostname(ybaArguments.getHostname()));
         url.append("/api/v1/customers/");
-        url.append(this.getCustomerUuid());
+        url.append(entity.getCustomerUuid());
         url.append("/regions");
 
         RestTemplate restTemplate = new RestTemplate();
@@ -80,7 +77,7 @@ public class CreateUniverseAction extends YbaClientAction {
         userIntent.setEnableYSQLAuth(Boolean.TRUE);
         userIntent.setInstanceType("small");
         userIntent.setNumNodes(1);
-        userIntent.setProvider(this.getProviderUuid());
+        userIntent.setProvider(entity.getProviderUuid());
         userIntent.setProviderType("kubernetes");
         userIntent.setRegionList(regionListUuids);
         userIntent.setReplicationFactor(entity.getReplicationFactor());
@@ -108,7 +105,7 @@ public class CreateUniverseAction extends YbaClientAction {
         url = new StringBuilder();
         url.append(normalizeHostname(ybaArguments.getHostname()));
         url.append("/api/v1/customers/");
-        url.append(this.getCustomerUuid());
+        url.append(entity.getCustomerUuid());
         url.append("/universes/clusters");
 
         //API call
@@ -131,24 +128,6 @@ public class CreateUniverseAction extends YbaClientAction {
         result.put("universeUuid", jsonObject.getString("resourceUUID"));
         result.put("taskUuid", jsonObject.getString("taskUUID"));
         return result;
-
-
-    }
-
-    public String getCustomerUuid() {
-        return customerUuid;
-    }
-
-    public void setCustomerUuid(String customerUuid) {
-        this.customerUuid = customerUuid;
-    }
-
-    public String getProviderUuid() {
-        return providerUuid;
-    }
-
-    public void setProviderUuid(String providerUuid) {
-        this.providerUuid = providerUuid;
     }
     
 }

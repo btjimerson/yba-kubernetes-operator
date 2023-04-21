@@ -16,6 +16,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "KUBENAMESPACE",
     "OVERRIDES",
     "KUBECONFIG_NAME",
+    "KUBE_POD_ADDRESS_TEMPLATE",
     "KUBECONFIG_CONTENT"
 })
 @Generated("jsonschema2pojo")
@@ -27,6 +28,8 @@ public class Config__1 {
     private String overrides;
     @JsonProperty("KUBECONFIG_NAME")
     private String kubeconfigName;
+    @JsonProperty("KUBE_POD_ADDRESS_TEMPLATE")
+    private String kubePodAddressTemplate;
     @JsonProperty("KUBECONFIG_CONTENT")
     private String kubeconfigContent;
     @JsonIgnore
@@ -43,13 +46,15 @@ public class Config__1 {
      * 
      * @param kubenamespace
      * @param kubeconfigName
+     * @param kubePodAddressTemplate
      * @param kubeconfigContent
      * @param overrides
      */
-    public Config__1(String kubenamespace, String overrides, String kubeconfigName, String kubeconfigContent) {
+    public Config__1(String kubenamespace, String overrides, String kubeconfigName, String kubePodAddressTemplate, String kubeconfigContent) {
         super();
         this.kubenamespace = kubenamespace;
         this.overrides = overrides;
+        this.kubePodAddressTemplate = kubePodAddressTemplate;
         this.kubeconfigName = kubeconfigName;
         this.kubeconfigContent = kubeconfigContent;
     }
@@ -82,6 +87,16 @@ public class Config__1 {
     @JsonProperty("KUBECONFIG_NAME")
     public void setKubeconfigName(String kubeconfigName) {
         this.kubeconfigName = kubeconfigName;
+    }
+
+    @JsonProperty("KUBE_POD_ADDRESS_TEMPLATE")
+    public String getKubePodAddressTemplate() {
+        return kubePodAddressTemplate;
+    }
+
+    @JsonProperty("KUBE_POD_ADDRESS_TEMPLATE")
+    public void setKubePodAddressTemplate(String kubePodAddressTemplate) {
+        this.kubePodAddressTemplate = kubePodAddressTemplate;
     }
 
     @JsonProperty("KUBECONFIG_CONTENT")
@@ -119,6 +134,10 @@ public class Config__1 {
         sb.append("kubeconfigName");
         sb.append('=');
         sb.append(((this.kubeconfigName == null)?"<null>":this.kubeconfigName));
+        sb.append(',');
+        sb.append("kubePodAddressTemplate");
+        sb.append('=');
+        sb.append(((this.kubePodAddressTemplate == null)?"<null>":this.kubePodAddressTemplate));
         sb.append(',');
         sb.append("kubeconfigContent");
         sb.append('=');

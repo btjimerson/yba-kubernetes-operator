@@ -32,8 +32,6 @@ public class CreateProviderAction extends YbaClientAction {
 
     private static final Log LOG = LogFactory.getLog(CreateProviderAction.class);
 
-    private String customerUuid;
-
     /**
      *  Runs this action
      */
@@ -46,7 +44,7 @@ public class CreateProviderAction extends YbaClientAction {
         StringBuilder url = new StringBuilder();
         url.append(normalizeHostname(ybaArguments.getHostname()));
         url.append("/api/v1/customers/");
-        url.append(this.getCustomerUuid());
+        url.append(cloudProvider.getCustomerUuid());
         url.append("/providers");
         LOG.debug(String.format("URL created = [%s]", url.toString()));
         RestTemplate restTemplate = new RestTemplate();
@@ -78,6 +76,8 @@ public class CreateProviderAction extends YbaClientAction {
         Config__1 zoneConfig = new Config__1();
         zoneConfig.setKubeconfigContent(cloudProvider.getKubeconfig());
         zoneConfig.setKubeconfigName(cloudProvider.getZone() + "-kubeconfig.yaml");
+        //In v2.16 and lower the pod address template is in the zone config; it's moved to the provider config in 2.17 on
+        zoneConfig.setKubePodAddressTemplate("{pod_name}.{service_name}.{namespace}.svc.{cluster_domain}");
         zoneConfig.setOverrides("istioCompatibility:\n  enabled: true\nmulticluster:\n  createServicePerPod: true");
         zoneConfig.setKubenamespace(cloudProvider.getNamespace());
 
@@ -107,8 +107,7 @@ public class CreateProviderAction extends YbaClientAction {
         providerConfig.setKubeconfigPullSecretName(ybaArguments.getPullSecretName());
         providerConfig.setKubeconfigImagePullSecretName(ybaArguments.getPullSecretName());
         providerConfig.setKubeconfigPullSecretContent(this.readFile(ybaArguments.getPullSecretPath()));
-        // This works in 1.17 but not in 1.16 - this is in zone config in 1.16
-        // TODO: figure out what is should be across versions
+        //In v2.16 and lower the pod address template is in the zone config; it's moved to the provider config in 2.17 on
         //providerConfig.setKubePodAddressTemplate("{pod_name}.{service_name}.{namespace}.svc.{cluster_domain}");
 
         //Provider
@@ -122,7 +121,7 @@ public class CreateProviderAction extends YbaClientAction {
         url = new StringBuilder();
         url.append(normalizeHostname(ybaArguments.getHostname()));
         url.append("/api/v1/customers/");
-        url.append(this.getCustomerUuid());
+        url.append(cloudProvider.getCustomerUuid());
         url.append("/providers/kubernetes");
         LOG.debug(String.format("URL created = [%s]", url.toString()));
 
@@ -179,19 +178,4 @@ public class CreateProviderAction extends YbaClientAction {
 
     }
 
-    /**
-     * Gets the customer UUID
-     * @return The customer UUID
-     */
-    public String getCustomerUuid() {
-        return customerUuid;
-    }
-
-    /**
-     * Sets the customer UUID
-     * @param The customer UUID
-     */
-    public void setCustomerUuid(String customerUuid) {
-        this.customerUuid = customerUuid;
-    }
 }
