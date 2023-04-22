@@ -51,5 +51,7 @@ rules:
   - cloudproviders/status
   - universes
   - universes/status
+  - softwares
+  - softwares/status
   verbs:
   - '*'
