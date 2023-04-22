@@ -44,6 +44,13 @@ public class YbaOperatorConfiguration {
         return controller;
     }
 
+    @Bean
+    SoftwareReconciler softwareController() {
+        SoftwareReconciler controller = new SoftwareReconciler();
+        controller.setYbaArguments(ybaArguments);
+        return controller;
+    }
+
     @Bean(initMethod = "start", destroyMethod = "stop")
     @SuppressWarnings("rawtypes")
     public Operator operator(List<Reconciler> controllers, KubernetesClient client) {
