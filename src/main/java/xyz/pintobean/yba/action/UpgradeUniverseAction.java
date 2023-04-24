@@ -82,14 +82,14 @@ public class UpgradeUniverseAction extends YbaClientAction {
 			this.getApiToken(),
 			software
 		);
-		LOG.info(String.format("Sending Create Universe request to %s", url.toString()));
+		LOG.info(String.format("Sending Upgrade Universe request to %s", url.toString()));
 		RestTemplate restTemplate = new RestTemplate();
 		String response = restTemplate.postForObject(
 			url.toString(), 
 			httpEntity, 
 			String.class)
 		;
-		LOG.debug(String.format("Response for create universe = [%s]", response));
+		LOG.debug(String.format("Response for upgrade universe = [%s]", response));
 
 		//Return values
 		JSONObject jsonObject = new JSONObject(response);
