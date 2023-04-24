@@ -77,7 +77,7 @@ public class CreateProviderAction extends YbaClientAction {
         zoneConfig.setKubeconfigContent(cloudProvider.getKubeconfig());
         zoneConfig.setKubeconfigName(cloudProvider.getZone() + "-kubeconfig.yaml");
         //In v2.16 and lower the pod address template is in the zone config; it's moved to the provider config in 2.17 on
-        zoneConfig.setKubePodAddressTemplate("{pod_name}.{service_name}.{namespace}.svc.{cluster_domain}");
+        zoneConfig.setKubePodAddressTemplate("{pod_name}.{namespace}.svc.{cluster_domain}");
         zoneConfig.setOverrides("istioCompatibility:\n  enabled: true\nmulticluster:\n  createServicePerPod: true");
         zoneConfig.setKubenamespace(cloudProvider.getNamespace());
 
@@ -108,7 +108,7 @@ public class CreateProviderAction extends YbaClientAction {
         providerConfig.setKubeconfigImagePullSecretName(ybaArguments.getPullSecretName());
         providerConfig.setKubeconfigPullSecretContent(this.readFile(ybaArguments.getPullSecretPath()));
         //In v2.16 and lower the pod address template is in the zone config; it's moved to the provider config in 2.17 on
-        //providerConfig.setKubePodAddressTemplate("{pod_name}.{service_name}.{namespace}.svc.{cluster_domain}");
+        //providerConfig.setKubePodAddressTemplate("{pod_name}.{namespace}.svc.{cluster_domain}");
 
         //Provider
         Provider provider = new Provider();
