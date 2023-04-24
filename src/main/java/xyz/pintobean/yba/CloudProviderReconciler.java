@@ -44,6 +44,7 @@ public class CloudProviderReconciler implements Reconciler<CloudProvider> {
         cloudProvider.setKubeconfig(resource.getSpec().getKubeconfig());
         cloudProvider.setCustomerUuid(customerUuid);
         cloudProvider.setName(resource.getSpec().getName());
+        cloudProvider.setNamespace(resource.getSpec().getNamespace());
         cloudProvider.setRegion(resource.getSpec().getRegion());
         cloudProvider.setRegionLatitude(resource.getSpec().getRegionLatitude());
         cloudProvider.setRegionLongitude(resource.getSpec().getRegionLongitude());
