@@ -3,6 +3,7 @@ package xyz.pintobean.yba.action;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,12 +53,22 @@ public class UpgradeUniverseAction extends YbaClientAction {
 			while ((line = reader.readLine()) != null) {
 				error.append(line);
 			}
-			LOG.info(String.format("Results from command: [%s]", output.toString()));
-			LOG.info(String.format("Errors from command: [%s]", error.toString()));
-			results.put("helm-result", output.toString());
+			if (error.toString() != null && error.toString().length() > 0) {
+				throw new RuntimeException(String.format("Error executing helm upgrade. %s", error.toString()));
+			} else {
+				results.put("helm-result", output.toString());
+			}
 		} catch (IOException ioe) {
 			LOG.error("Error executing helm upgrade.", ioe);
 			throw new RuntimeException(ioe);
+		}
+
+		// Wait a little bit for the upgraded YBA to come up
+		try {
+			Thread.sleep(Duration.ofMinutes(3));
+		} catch (InterruptedException e) {
+			LOG.error("Thread sleep was interrupted.", e);
+			throw new RuntimeException(e);
 		}
 
 		// Build request URL
