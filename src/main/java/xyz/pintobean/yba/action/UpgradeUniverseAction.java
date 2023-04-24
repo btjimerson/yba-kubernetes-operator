@@ -36,7 +36,7 @@ public class UpgradeUniverseAction extends YbaClientAction {
 		helmCommand.append(entity.getChartVersion());
 		helmCommand.append(" -n yugabyte --set istioCompatibility.enabled=true --set image.tag=");
 		helmCommand.append(entity.getSoftwareVersion());
-		helmCommand.append("--set multicluster.createServicePerPod.true --wait");
+		helmCommand.append(" --set multicluster.createServicePerPod.true --wait");
 		
 		try {
 			LOG.info(String.format("Executing command [%s].", helmCommand));
