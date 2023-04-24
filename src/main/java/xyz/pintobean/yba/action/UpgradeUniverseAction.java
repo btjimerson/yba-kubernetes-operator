@@ -36,12 +36,11 @@ public class UpgradeUniverseAction extends YbaClientAction {
 		helmCommand.append(entity.getChartVersion());
 		helmCommand.append(" -n yugabyte --set istioCompatibility.enabled=true --set image.tag=");
 		helmCommand.append(entity.getSoftwareVersion());
-		helmCommand.append(" --wait");
+		helmCommand.append("--set multicluster.createServicePerPod.true --wait");
 		
 		try {
 			LOG.info(String.format("Executing command [%s].", helmCommand));
 			Process process = Runtime.getRuntime().exec(new String[]{"sh", "-c", helmCommand.toString()});
-			LOG.info(String.format("Finished executing command [%s].", helmCommand));
 			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 			StringBuffer output = new StringBuffer();
 			String line = "";
@@ -65,6 +64,7 @@ public class UpgradeUniverseAction extends YbaClientAction {
 
 		// Wait a little bit for the upgraded YBA to come up
 		try {
+			LOG.info("Waiting for a while for YBA to come back up.");
 			Thread.sleep(Duration.ofMinutes(3));
 		} catch (InterruptedException e) {
 			LOG.error("Thread sleep was interrupted.", e);
@@ -82,7 +82,7 @@ public class UpgradeUniverseAction extends YbaClientAction {
 
 		// Build request body
 		Software software = new Software();
-		software.setNodePrefix("yb-dev" + entity.getName());
+		software.setNodePrefix("yb-dev-" + entity.getName());
 		software.setUniverseUUID(entity.getUniverseUuid());
 		software.setUpgradeOption(entity.getUpgradeOption());
 		software.setTaskType(entity.getTaskType());
