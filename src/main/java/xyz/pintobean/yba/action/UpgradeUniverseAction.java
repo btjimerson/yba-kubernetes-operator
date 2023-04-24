@@ -38,7 +38,7 @@ public class UpgradeUniverseAction extends YbaClientAction {
 		helmCommand.append(" --wait");
 		
 		try {
-			Process process = Runtime.getRuntime().exec(new String[]{helmCommand.toString()});
+			Process process = Runtime.getRuntime().exec(new String[]{"sh", "-c", helmCommand.toString()});
 			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 			StringBuffer output = new StringBuffer();
 			String line = "";
