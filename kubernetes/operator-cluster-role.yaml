@@ -13,7 +13,8 @@ rules:
   - policy
   - rbac.authorization.k8s.io
   resources:
-  - pods
+  - clusterrolebindings
+  - clusterroles
   - componentstatuses
   - configmaps
   - daemonsets
@@ -26,6 +27,7 @@ rules:
   - limitranges
   - namespaces
   - nodes
+  - poddisruptionbudgets
   - pods
   - persistentvolumes
   - persistentvolumeclaims
@@ -35,6 +37,7 @@ rules:
   - secrets
   - serviceaccounts
   - services
+  - statefulsets
   verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
 - apiGroups:
   - "apiextensions.k8s.io"
