@@ -24,9 +24,17 @@ spec:
         - name: YBA_HOSTNAME
           value: "yugaware-yugaware-ui.yugabyte.svc.cluster.local"
         - name: YBA_PROVIDER_NAME
-          value: "gke"
+          value: "pnap"
         - name: YBA_PULL_SECRET_PATH
           value: "/etc/yugabyte-pull-secret/yugabyte-pull-secret.yaml"
+        - name: YBA_ENVIRONMENT
+          value: "DEMO"
+        - name: YBA_NAMESPACE
+          value: "yb-nodes"
+        - name: YBA_PULL_SECRET_NAME
+          value: "yugabyte-k8s-pull-secret"
+        - name: YBA_SERVICE_ACCOUNT
+          value: "yugabyte-platform-universe-management"
         volumeMounts:
         - mountPath: /etc/yugabyte-pull-secret
           name: yugabyte-pull-secret

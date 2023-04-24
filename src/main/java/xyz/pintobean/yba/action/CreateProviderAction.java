@@ -101,7 +101,7 @@ public class CreateProviderAction extends YbaClientAction {
         
         //Provider configuration
         Config providerConfig = new Config();
-        providerConfig.setKubeconfigProvider("gke");
+        providerConfig.setKubeconfigProvider(ybaArguments.getProviderName());
         providerConfig.setKubeconfigServiceAccount(ybaArguments.getServiceAccount());
         providerConfig.setKubeconfigImageRegistry("quay.io/yugabyte/yugabyte");
         providerConfig.setKubeconfigPullSecretName(ybaArguments.getPullSecretName());

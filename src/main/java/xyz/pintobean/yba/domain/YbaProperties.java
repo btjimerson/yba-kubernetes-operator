@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 public class YbaProperties {
 
     private String hostname;
+    private String providerName;
     private String pullSecretName; 
     private String pullSecretPath; 
     private String serviceAccount;
@@ -20,6 +21,14 @@ public class YbaProperties {
         this.hostname = hostname;
     }
 
+    public String getProviderName() {
+        return providerName;
+    }
+
+    public void setProviderName(String providerName) {
+        this.providerName = providerName;
+    }
+    
     public String getPullSecretName() {
         return pullSecretName;
     }
@@ -43,5 +52,6 @@ public class YbaProperties {
     public void setServiceAccount(String serviceAccount) {
         this.serviceAccount = serviceAccount;
     }
+
 
 }
