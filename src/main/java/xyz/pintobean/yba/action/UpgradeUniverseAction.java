@@ -38,13 +38,16 @@ public class UpgradeUniverseAction extends YbaClientAction {
 		helmCommand.append(" --wait");
 		
 		try {
+			LOG.info(String.format("Executing command [%s].", helmCommand));
 			Process process = Runtime.getRuntime().exec(new String[]{"sh", "-c", helmCommand.toString()});
+			LOG.info(String.format("Finished executing command [%s].", helmCommand));
 			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 			StringBuffer output = new StringBuffer();
 			String line = "";
 			while ((line = reader.readLine()) != null) {
 				output.append(line);
 			}
+			LOG.info(String.format("Results from command: [%s]", output.toString()));
 			results.put("helm-result", output.toString());
 		} catch (IOException ioe) {
 			LOG.error("Error executing helm upgrade.", ioe);
