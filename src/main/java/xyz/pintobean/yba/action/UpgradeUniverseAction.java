@@ -31,7 +31,7 @@ public class UpgradeUniverseAction extends YbaClientAction {
 		Map<String, String> results = new HashMap<String, String>();
 
 		StringBuilder helmCommand = new StringBuilder();
-		helmCommand.append("helm upgrade yugaware yugabytedb/yugaware --version ");
+		helmCommand.append("/usr/local/bin/helm upgrade yugaware yugabytedb/yugaware --version ");
 		helmCommand.append(entity.getChartVersion());
 		helmCommand.append(" -n yugabyte --set istioCompatibility.enabled=true --set image.tag=");
 		helmCommand.append(entity.getSoftwareVersion());
@@ -47,7 +47,8 @@ public class UpgradeUniverseAction extends YbaClientAction {
 			}
 			results.put("helm-result", output.toString());
 		} catch (IOException ioe) {
-			ioe.printStackTrace();
+			LOG.error("Error executing helm upgrade.", ioe);
+			throw new RuntimeException(ioe);
 		}
 
 		// Build request URL

@@ -50,7 +50,7 @@ public class SoftwareReconciler implements Reconciler<Software>{
         software.setChartVersion(resource.getSpec().getChartVersion());
         software.setCustomerUuid(customerUuid);
         software.setName(resource.getSpec().getName());
-        software.setSoftwareVersion(resource.getSpec().getName());
+        software.setSoftwareVersion(resource.getSpec().getSoftwareVersion());
         software.setTaskType(resource.getSpec().getTaskType());
         software.setUniverseUuid(universeUuid);
         software.setUpgradeOption(resource.getSpec().getUpgradeOption());
