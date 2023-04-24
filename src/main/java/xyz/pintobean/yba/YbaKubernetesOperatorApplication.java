@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class YbaKubernetesManagerApplication {
+public class YbaKubernetesOperatorApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(YbaKubernetesManagerApplication.class, args);
+		SpringApplication.run(YbaKubernetesOperatorApplication.class, args);
 	}
 	
 }
