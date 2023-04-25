@@ -55,6 +55,7 @@ public class UpgradeUniverseAction extends YbaClientAction {
 			if (error.toString() != null && error.toString().length() > 0) {
 				throw new RuntimeException(String.format("Error executing helm upgrade. %s", error.toString()));
 			} else {
+				LOG.info(String.format("Result from helm upgrade command: [%s]", output.toString()));
 				results.put("helm-result", output.toString());
 			}
 		} catch (IOException ioe) {
