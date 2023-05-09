@@ -43,14 +43,14 @@ public class UpgradeUniverseAction extends YbaClientAction {
 		
 		try {
 			LOG.info(String.format("Executing command [%s].", helmCommand));
-			Process process = Runtime.getRuntime().exec(new String[]{"sh", "-c", helmCommand.toString()});
-			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+			Process helm = Runtime.getRuntime().exec(new String[]{"sh", "-c", helmCommand.toString()});
+			BufferedReader reader = new BufferedReader(new InputStreamReader(helm.getInputStream()));
 			StringBuffer output = new StringBuffer();
 			String line = "";
 			while ((line = reader.readLine()) != null) {
 				output.append(line);
 			}
-			reader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+			reader = new BufferedReader(new InputStreamReader(helm.getErrorStream()));
 			StringBuffer error = new StringBuffer();
 			while ((line = reader.readLine()) != null) {
 				error.append(line);
@@ -68,16 +68,21 @@ public class UpgradeUniverseAction extends YbaClientAction {
 
 		// Wait for YBA to come back up
 		int responseCode = 404;
+		StringBuilder curlCommand = new StringBuilder();
+		curlCommand.append("/usr/bin/curl --silent --output /dev/null --write-out \"%{http_code}\" ");
+		curlCommand.append(normalizeHostname(ybaArguments.getHostname()));
 		try {
+			Process curl = Runtime.getRuntime().exec(new String[]{"sh", "-c", curlCommand.toString()});
 			LOG.info("Waiting for YBA to come back up.");
-			URI uri = new URI(normalizeHostname(ybaArguments.getHostname()));
-			URL url = uri.toURL();
-			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-			connection.setConnectTimeout(4000);
-			connection.setRequestMethod("GET");
 			while (responseCode >= 400) {
-				responseCode = connection.getResponseCode();
-				LOG.info(String.format("YBA is not available yet. URL is %s. Response is %s...", url.toString(), responseCode));
+				BufferedReader reader = new BufferedReader(new InputStreamReader(curl.getInputStream()));
+				StringBuffer output = new StringBuffer();
+				String line = "";
+				while ((line = reader.readLine()) != null) {
+					output.append(line);
+				}
+				responseCode = Integer.getInteger(output.toString());
+				LOG.info(String.format("YBA is not available yet. URL is %s. Response is %s...", normalizeHostname(ybaArguments.getHostname()), responseCode));
 				Thread.sleep(Duration.ofSeconds(10));
 			}
 		} catch (Exception e) {

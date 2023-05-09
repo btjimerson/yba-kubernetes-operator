@@ -1,5 +1,6 @@
 FROM eclipse-temurin:19
 RUN apt-get update
+RUN apt-get install -y curl
 RUN wget https://get.helm.sh/helm-v3.9.3-linux-amd64.tar.gz
 RUN tar xvf helm-v3.9.3-linux-amd64.tar.gz
 RUN mv linux-amd64/helm /usr/local/bin
