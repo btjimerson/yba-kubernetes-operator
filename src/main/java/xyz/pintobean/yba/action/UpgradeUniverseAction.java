@@ -81,6 +81,7 @@ public class UpgradeUniverseAction extends YbaClientAction {
 			while (responseCode >= 400) {
 				responseCode = connection.getResponseCode();
 				LOG.info(String.format("YBA is not available yet. Response is %s...", responseCode));
+				Thread.sleep(Duration.ofSeconds(10));
 			}
 		} catch (Exception e) {
 			LOG.error("Error connecting to YBA.", e);
