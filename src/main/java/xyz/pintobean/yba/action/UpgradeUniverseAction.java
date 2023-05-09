@@ -4,11 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
@@ -80,7 +77,7 @@ public class UpgradeUniverseAction extends YbaClientAction {
 			connection.setRequestMethod("GET");
 			while (responseCode >= 400) {
 				responseCode = connection.getResponseCode();
-				LOG.info(String.format("YBA is not available yet. Response is %s...", responseCode));
+				LOG.info(String.format("YBA is not available yet. URL is %s. Response is %s...", url.toString(), responseCode));
 				Thread.sleep(Duration.ofSeconds(10));
 			}
 		} catch (Exception e) {
