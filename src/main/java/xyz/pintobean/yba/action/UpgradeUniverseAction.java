@@ -16,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import xyz.pintobean.yba.domain.SoftwareKubernetesEntity;
-import xyz.pintobean.yba.domain.provider.ExistingProvider;
 import xyz.pintobean.yba.domain.software.Software;
 
 /**
@@ -81,8 +80,16 @@ public class UpgradeUniverseAction extends YbaClientAction {
 				String.class
 			);
 			isError = ybaHealthEntity.getStatusCode().isError();
-			LOG.info(String.format("YBA is not available yet. URL is %s. Response is %s...", 
-					url, ybaHealthEntity.getStatusCode()));
+			if (isError) {
+				LOG.info(String.format("YBA is not available yet. URL is %s. Response is %s.", 
+						url, ybaHealthEntity.getStatusCode()));
+				try {
+					Thread.sleep(Duration.ofSeconds(10));
+				} catch (InterruptedException ie) {
+					LOG.error("Wait thread was interrupted.", ie);
+					ie.printStackTrace();
+				}
+			}
 		}
 
 		// Build request URL
