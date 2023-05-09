@@ -3,6 +3,12 @@ package xyz.pintobean.yba.action;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
@@ -63,12 +69,21 @@ public class UpgradeUniverseAction extends YbaClientAction {
 			throw new RuntimeException(ioe);
 		}
 
-		// Wait a little bit for the upgraded YBA to come up
+		// Wait for YBA to come back up
+		int responseCode = 404;
 		try {
-			LOG.info("Waiting for a while for YBA to come back up.");
-			Thread.sleep(Duration.ofMinutes(3));
-		} catch (InterruptedException e) {
-			LOG.error("Thread sleep was interrupted.", e);
+			LOG.info("Waiting for YBA to come back up.");
+			URI uri = new URI(normalizeHostname(ybaArguments.getHostname()));
+			URL url = uri.toURL();
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			connection.setConnectTimeout(4000);
+			connection.setRequestMethod("GET");
+			while (responseCode >= 400) {
+				responseCode = connection.getResponseCode();
+				LOG.info(String.format("YBA is not available yet. Response is %s...", responseCode));
+			}
+		} catch (Exception e) {
+			LOG.error("Error connecting to YBA.", e);
 			throw new RuntimeException(e);
 		}
 
