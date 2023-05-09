@@ -49,7 +49,10 @@ public class SoftwareReconciler implements Reconciler<Software>{
         SoftwareKubernetesEntity software = new SoftwareKubernetesEntity();
         software.setChartVersion(resource.getSpec().getChartVersion());
         software.setCustomerUuid(customerUuid);
+        software.setEnableYbc(resource.getSpec().getEnableYbc());
         software.setName(resource.getSpec().getName());
+        software.setSleepAfterMasterRestartMillis(resource.getSpec().getSleepAfterMasterRestartMillis());
+        software.setSleepAfterTServerRestartMillis(resource.getSpec().getSleepAfterTServerRestartMillis());
         software.setSoftwareVersion(resource.getSpec().getSoftwareVersion());
         software.setTaskType(resource.getSpec().getTaskType());
         software.setUniverseUuid(universeUuid);

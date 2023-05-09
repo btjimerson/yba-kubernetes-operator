@@ -83,10 +83,13 @@ public class UpgradeUniverseAction extends YbaClientAction {
 
 		// Build request body
 		Software software = new Software();
-		software.setNodePrefix("yb-dev-" + entity.getName());
+		software.setEnableYbc(entity.getEnableYbc());
+		software.setNodePrefix("yb-DEV-" + entity.getName());
+		software.setSleepAfterMasterRestartMillis(entity.getSleepAfterMasterRestartMillis());
+		software.setSleepAfterTServerRestartMillis(entity.getSleepAfterTServerRestartMillis());
+		software.setTaskType(entity.getTaskType());
 		software.setUniverseUUID(entity.getUniverseUuid());
 		software.setUpgradeOption(entity.getUpgradeOption());
-		software.setTaskType(entity.getTaskType());
 		software.setYbSoftwareVersion(entity.getSoftwareVersion());
 
 		//API call

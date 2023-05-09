@@ -6,7 +6,10 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class SoftwareSpec {
 
     private String chartVersion;
+    private Boolean enableYbc;
     private String name;
+    private Integer sleepAfterMasterRestartMillis;
+    private Integer sleepAfterTServerRestartMillis;
     private String softwareVersion;
     private String taskType;
     private String upgradeOption;
@@ -19,12 +22,36 @@ public class SoftwareSpec {
         this.chartVersion = chartVersion;
     }
 
+    public Boolean getEnableYbc() {
+        return enableYbc;
+    }
+
+    public void setEnableYbc(Boolean enableYbc) {
+        this.enableYbc = enableYbc;
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getSleepAfterMasterRestartMillis() {
+        return sleepAfterMasterRestartMillis;
+    }
+
+    public void setSleepAfterMasterRestartMillis(Integer sleepAfterMasterRestartMillis) {
+        this.sleepAfterMasterRestartMillis = sleepAfterMasterRestartMillis;
+    }
+
+    public Integer getSleepAfterTServerRestartMillis() {
+        return sleepAfterTServerRestartMillis;
+    }
+
+    public void setSleepAfterTServerRestartMillis(Integer sleepAfterTServerRestartMillis) {
+        this.sleepAfterTServerRestartMillis = sleepAfterTServerRestartMillis;
     }
 
     public String getSoftwareVersion() {

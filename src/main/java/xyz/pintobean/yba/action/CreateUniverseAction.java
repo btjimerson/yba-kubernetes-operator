@@ -98,7 +98,7 @@ public class CreateUniverseAction extends YbaClientAction {
         Universe universe = new Universe();
         universe.setClusterOperation("CREATE");
         universe.setClusters(clusters);
-        universe.setNodePrefix("yb-dev-" + entity.getName());
+        universe.setNodePrefix("yb-DEV-" + entity.getName());
         universe.setUniverseUUID(UUID.randomUUID().toString());
 
         //Build request URL

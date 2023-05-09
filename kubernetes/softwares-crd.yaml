@@ -22,8 +22,14 @@ spec:
             properties:
               chartVersion:
                 type: string
+              enableYbc:
+                type: boolean
               name:
                 type: string
+              sleepAfterMasterRestartMillis:
+                type: integer
+              sleepAfterTServerRestartMillis:
+                type: integer
               softwareVersion:
                 type: string
               taskType:
