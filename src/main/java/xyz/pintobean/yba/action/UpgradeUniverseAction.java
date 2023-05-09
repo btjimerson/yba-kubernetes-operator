@@ -3,9 +3,6 @@ package xyz.pintobean.yba.action;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URL;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,9 +11,12 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import xyz.pintobean.yba.domain.SoftwareKubernetesEntity;
+import xyz.pintobean.yba.domain.provider.ExistingProvider;
 import xyz.pintobean.yba.domain.software.Software;
 
 /**
@@ -67,31 +67,26 @@ public class UpgradeUniverseAction extends YbaClientAction {
 		}
 
 		// Wait for YBA to come back up
-		int responseCode = 404;
-		StringBuilder curlCommand = new StringBuilder();
-		curlCommand.append("/usr/bin/curl --silent --output /dev/null --write-out \"%{http_code}\" ");
-		curlCommand.append(normalizeHostname(ybaArguments.getHostname()));
-		try {
-			Process curl = Runtime.getRuntime().exec(new String[]{"sh", "-c", curlCommand.toString()});
-			LOG.info("Waiting for YBA to come back up.");
-			while (responseCode >= 400) {
-				BufferedReader reader = new BufferedReader(new InputStreamReader(curl.getInputStream()));
-				StringBuffer output = new StringBuffer();
-				String line = "";
-				while ((line = reader.readLine()) != null) {
-					output.append(line);
-				}
-				responseCode = Integer.getInteger(output.toString());
-				LOG.info(String.format("YBA is not available yet. URL is %s. Response is %s...", normalizeHostname(ybaArguments.getHostname()), responseCode));
-				Thread.sleep(Duration.ofSeconds(10));
-			}
-		} catch (Exception e) {
-			LOG.error("Error connecting to YBA.", e);
-			throw new RuntimeException(e);
+		StringBuilder url = new StringBuilder();
+		url.append(normalizeHostname(ybaArguments.getHostname()));
+		HttpEntity<Object> httpEntity = this.getHttpEntity(this.getApiToken());
+		RestTemplate restTemplate = new RestTemplate();
+        LOG.info(String.format("Checking YBA health at URL %s", url.toString()));
+		boolean isError = true;
+		while (isError) {
+			ResponseEntity<String> ybaHealthEntity = restTemplate.exchange(
+				url.toString(),
+				HttpMethod.GET,
+				httpEntity,
+				String.class
+			);
+			isError = ybaHealthEntity.getStatusCode().isError();
+			LOG.info(String.format("YBA is not available yet. URL is %s. Response is %s...", 
+					url, ybaHealthEntity.getStatusCode()));
 		}
 
 		// Build request URL
-		StringBuilder url = new StringBuilder();
+		url = new StringBuilder();
         url.append(normalizeHostname(ybaArguments.getHostname()));
         url.append("/api/v1/customers/");
         url.append(entity.getCustomerUuid());
@@ -111,12 +106,12 @@ public class UpgradeUniverseAction extends YbaClientAction {
 		software.setYbSoftwareVersion(entity.getSoftwareVersion());
 
 		//API call
-		HttpEntity<Object> httpEntity = this.getHttpEntity(
+		httpEntity = this.getHttpEntity(
 			this.getApiToken(),
 			software
 		);
 		LOG.info(String.format("Sending Upgrade Universe request to %s", url.toString()));
-		RestTemplate restTemplate = new RestTemplate();
+		restTemplate = new RestTemplate();
 		String response = restTemplate.postForObject(
 			url.toString(), 
 			httpEntity, 

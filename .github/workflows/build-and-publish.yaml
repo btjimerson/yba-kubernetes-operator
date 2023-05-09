@@ -44,7 +44,7 @@ jobs:
         distribution: 'temurin'
     - name: Create distribution
       run: mvn package -DskipTests=true
-    - name: Extract metadata for command runner
+    - name: Extract metadata
       id: meta
       uses: docker/metadata-action@v4.1.1
       with:
