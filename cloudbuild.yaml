@@ -1,0 +1,4 @@
+     steps:
+     - name: maven:3.3-jdk-19
+       entrypoint: mvn
+       args: ['clean', 'test']
