@@ -119,7 +119,7 @@ public class CreateUniverseAction extends YbaClientAction {
             httpEntity, 
             String.class)
         ;
-        LOG.debug(String.format("Response for create universe = [%s]", response));
+        LOG.info(String.format("Response for create universe = [%s]", response));
 
         //Return values
         JSONObject jsonObject = new JSONObject(response);
